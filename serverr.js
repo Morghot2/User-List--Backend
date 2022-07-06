@@ -7,6 +7,7 @@ const cors = require("cors");
 
 
 
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const allowedOrigins = ["http://localhost:3000"];
@@ -16,6 +17,8 @@ const options = {
 };
 
 app.use(cors(options));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 
 app.use('/api/users', require('./routes/userRoutes'));

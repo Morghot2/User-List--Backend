@@ -8,9 +8,9 @@ const {
 
 const router = express.Router();
 
-router.get("/", getUsers);
-router.post("/", addUser);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+//Same endpoint - short syntax
+
+router.route('/').get(getUsers).post(addUser);
+router.route('/:id').put(updateUser).delete(deleteUser);
 
 module.exports = router;
