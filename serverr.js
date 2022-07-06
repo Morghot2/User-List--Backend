@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 // import cors from "cors";
 const cors = require("cors");
 
+
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const allowedOrigins = ["http://localhost:3000"];
