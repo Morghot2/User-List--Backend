@@ -27,7 +27,9 @@ const addUser = asyncHandler(async (req, res) => {
   res.status(200).json(newUser);
 });
 const deleteUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete user ${req.params.id}` });
+  const deletedUser = await userRecord.findByIdAndDelete(req.params.id);
+
+  res.status(200).json({id: req.params.id});
 });
 
 module.exports = {
