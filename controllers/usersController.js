@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { v4: uuidV4 } = require ('uuid')
+const { v4: uuidV4 } = require("uuid");
 const { default: mongoose } = require("mongoose");
 const userRecord = require("../models/usersRecordsModel");
 
@@ -8,10 +8,14 @@ const getUsers = asyncHandler(async (req, res) => {
   res.status(200).json(userRecords);
 });
 const updateUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update user ${req.params.id}` });
+  const updatedUser = await userRecord.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.status(200).json(updatedUser);
 });
 const addUser = asyncHandler(async (req, res) => {
-  //   req.body === {} ? res.status(400).json({ message: "Please provide at least one kind of data" }) : res.status(200).json({ message: "Add user" });
   const newUser = await userRecord.create({
     id: uuidV4(),
     firstName: req.body.firstName,
