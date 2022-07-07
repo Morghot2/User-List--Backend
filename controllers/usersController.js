@@ -1,7 +1,10 @@
 const asyncHandler = require("express-async-handler");
+const { default: mongoose } = require("mongoose");
+const userRecord = require("../models/usersRecordsModel");
 
 const getUsers = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Get users" });
+  const userRecords = await userRecord.find();
+  res.status(200).json(userRecords);
 });
 const updateUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `Update user ${req.params.id}` });
