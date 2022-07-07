@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async (req, res) => {
       firstName: newAppUser.firstName,
       lastName: newAppUser.lastName,
       email: newAppUser.email,
-    //   token: generateToken(newAppUser._id),
+      //   token: generateToken(newAppUser._id),
     });
   } else {
     res.status(400);
@@ -36,6 +36,20 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const appUser = await User.findOne({ email });
+  if (appUser && (await bcrypt.compare(password, appUser.password))) {
+    res.status(201).json({
+      _id: appUser.id,
+      firstName: appUser.firstName,
+      lastName: appUser.lastName,
+      email: appUser.email,
+    });
+  } else {
+    res.status(400);
+    throw new Error("Invalid email or password");
+  }
+
   res.json({ message: "Login user" });
 });
 
