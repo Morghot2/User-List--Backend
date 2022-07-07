@@ -10,9 +10,6 @@ const mongoose = require("mongoose");
 
 const userRecordSchema = mongoose.Schema(
   {
-    id: {
-      type: String,
-    },
     firstName: {
       type: String,
     },
