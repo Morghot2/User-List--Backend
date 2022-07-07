@@ -10,6 +10,11 @@ const mongoose = require("mongoose");
 
 const userRecordSchema = mongoose.Schema(
   {
+    appUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "appUser",
+    },
     firstName: {
       type: String,
     },
