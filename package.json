@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "dev": "concurrently \"npm run server\" \"npm run start --prefix todo\"",
-    "start": "nodemon serverr.js"
+    "dev": "concurrently \"npm run server\" \"npm run start --prefix todo\""
+   
   },
   "keywords": [],
   "author": "",

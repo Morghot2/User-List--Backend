@@ -1,13 +1,5 @@
 const mongoose = require("mongoose");
 
-// type UserType = {
-//     id: string;
-//     firstName: string;
-//     lastName: string;
-//     email: string;
-//     age: number;
-//   };
-
 const userRecordSchema = mongoose.Schema(
   {
     appUser: {
