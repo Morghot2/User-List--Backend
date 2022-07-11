@@ -5,12 +5,13 @@ const {
   updateUser,
   deleteUser,
 } = require("../controllers/usersController");
+const {protect} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 //Same endpoint - short syntax
 
-router.route('/').get(getUsers).post(addUser);
-router.route('/:id').put(updateUser).delete(deleteUser);
+router.route('/').get(protect, getUsers).post(protect, addUser);
+router.route('/:id').put(protect, updateUser).delete(protect, deleteUser);
 
 module.exports = router;
