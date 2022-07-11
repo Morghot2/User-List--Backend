@@ -4,7 +4,7 @@ const { default: mongoose } = require("mongoose");
 const userRecord = require("../models/usersRecordsModel");
 
 const getUsers = asyncHandler(async (req, res) => {
-  const userRecords = await userRecord.find();
+  const userRecords = await userRecord.find({appUser: req.appUser.id});
   res.status(200).json(userRecords);
 });
 const updateUser = asyncHandler(async (req, res) => {
@@ -17,11 +17,11 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 const addUser = asyncHandler(async (req, res) => {
   const newUser = await userRecord.create({
-    id: uuidV4(),
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
     age: req.body.age,
+    appUser: req.appUser.id
   });
 
   res.status(200).json(newUser);
