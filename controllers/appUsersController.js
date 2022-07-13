@@ -33,12 +33,14 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid user data");
   }
+  console.log("User created");
 });
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const appUser = await User.findOne({ email });
   if (appUser && (await bcrypt.compare(password, appUser.password))) {
+    console.log("user logged correctly")
     res.status(201).json({
       _id: appUser.id,
       firstName: appUser.firstName,
@@ -46,12 +48,13 @@ const loginUser = asyncHandler(async (req, res) => {
       email: appUser.email,
       token: generateToken(appUser._id),
     });
+    
   } else {
-    res.status(400);
+    res.status(400).json({message: "Invalid credentials"});
     throw new Error("Invalid email or password");
   }
 
-  res.json({ message: "Login user" });
+  console.log("User logged in");
 });
 
 const getMe = asyncHandler(async (req, res) => {
