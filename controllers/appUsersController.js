@@ -12,7 +12,6 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
-  //Hashing
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
   const newAppUser = await User.create({
@@ -33,14 +32,12 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Invalid user data");
   }
-  console.log("User created");
 });
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const appUser = await User.findOne({ email });
   if (appUser && (await bcrypt.compare(password, appUser.password))) {
-    console.log("user logged correctly")
     res.status(201).json({
       _id: appUser.id,
       firstName: appUser.firstName,
@@ -48,19 +45,17 @@ const loginUser = asyncHandler(async (req, res) => {
       email: appUser.email,
       token: generateToken(appUser._id),
     });
-    
   } else {
-    res.status(400).json({message: "Invalid credentials"});
+    res.status(400).json({ message: "Invalid credentials" });
     throw new Error("Invalid email or password");
   }
-
-  console.log("User logged in");
 });
 
 const getMe = asyncHandler(async (req, res) => {
-  const {_id, firstName, lastName, email} = await User.findById(req.appUser._id)
+  const { _id, firstName, lastName, email } = await User.findById(
+    req.appUser._id
+  );
   res.status(200).json({ _id, firstName, lastName, email });
-
 });
 
 const generateToken = (id) => {

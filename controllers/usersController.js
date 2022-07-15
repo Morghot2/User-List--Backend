@@ -17,25 +17,21 @@ const addUser = asyncHandler(async (req, res) => {
     age: req.body.age,
     appUser: req.appUser.id,
   });
-
   res.status(200).json(newUser);
 });
 
 const updateUser = asyncHandler(async (req, res) => {
   const userRecordToChange = await userRecord.findById(req.params.id);
-
   if (!userRecordToChange) {
     res.status(400);
     throw new Error("User record not found");
   }
 
   const currentAppUser = await User.findById(req.appUser.id);
-
   if (!currentAppUser) {
     res.status(401);
     throw new Error("User not found");
   }
-
   if (userRecordToChange.appUser.toString() !== currentAppUser.id) {
     res.status(401);
     throw new Error("User not authorized");
@@ -48,7 +44,6 @@ const updateUser = asyncHandler(async (req, res) => {
       new: true,
     }
   );
-
   res.status(200).json(updatedUserRecord);
 });
 
@@ -61,10 +56,6 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 
   const currentAppUser = await User.findById(req.appUser.id);
-  console.log(currentAppUser.id)
-  console.log(deleteUserRecord.appUser.toString())
-
-
   if (!currentAppUser) {
     res.status(401);
     throw new Error("User not found");
@@ -74,9 +65,7 @@ const deleteUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User not authorized");
   }
-
   await deleteUserRecord.remove();
-
   res.status(200).json({ id: req.params.id });
 });
 
