@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 connectDB()
 const app = express();
 const PORT = process.env.PORT || 5000;
-const allowedOrigins = ["http://localhost:3000"];
+const allowedOrigins = ["http://localhost:3000", "https://users-manage-dashboard.herokuapp.com/"];
 
 const options = {
   origin: allowedOrigins,
