@@ -1,5 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const { v4: uuidV4 } = require("uuid");
 const { default: mongoose } = require("mongoose");
 const userRecord = require("../models/usersRecordsModel");
 const User = require("../models/appUserModel");
