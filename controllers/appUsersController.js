@@ -55,6 +55,15 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+const logoutUser = asyncHandler(async (req, res) => {
+  res.clearCookie("access_token").status(200).json({
+    _id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+});
+
 const getMe = asyncHandler(async (req, res) => {
   const { _id, firstName, lastName, email } = await User.findById(
     req.appUser._id
@@ -71,5 +80,6 @@ const generateToken = (id) => {
 module.exports = {
   registerUser,
   loginUser,
+  logoutUser,
   getMe,
 };
