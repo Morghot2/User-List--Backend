@@ -38,7 +38,12 @@ const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const appUser = await User.findOne({ email });
   if (appUser && (await bcrypt.compare(password, appUser.password))) {
-    res.status(201).json({
+    res
+    .cookie("access_token", generateToken(appUser._id), {
+      httpOnly: true,
+    })
+    .status(201)
+    .json({
       _id: appUser.id,
       firstName: appUser.firstName,
       lastName: appUser.lastName,
