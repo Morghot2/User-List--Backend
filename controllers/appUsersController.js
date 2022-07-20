@@ -48,6 +48,7 @@ const loginUser = asyncHandler(async (req, res) => {
       firstName: appUser.firstName,
       lastName: appUser.lastName,
       email: appUser.email,
+      // isLogged: true
     });
   } else {
     res.status(400).json({ message: "Invalid credentials" });
@@ -61,6 +62,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     firstName: "",
     lastName: "",
     email: "",
+    isLogged: false
+    
   });
 });
 
@@ -68,7 +71,7 @@ const getMe = asyncHandler(async (req, res) => {
   const { _id, firstName, lastName, email } = await User.findById(
     req.appUser._id
   );
-  res.status(200).json({ _id, firstName, lastName, email });
+  res.status(200).json({ _id, firstName, lastName, email, isLogged: true });
 });
 
 const generateToken = (id) => {
