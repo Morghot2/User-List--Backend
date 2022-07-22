@@ -4,6 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const socket = require("socket.io");
+const { protect } = require("./middleware/authMiddleware");
 
 connectDB();
 const app = express();
@@ -26,16 +27,34 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/appusers", require("./routes/appUserRoutes"));
 
+// app.listen(PORT, () => {
+//   console.log(`New Server running on port ${PORT}`);
+// });
+
 const server = app.listen(PORT, () => {
   console.log(`New Server running on port ${PORT}`);
-});
-
+})
 const io = socket(server, {
-  // path: "/api/users",
   cors: {
     origin: allowedOrigins,
-  },
+  }
 });
+
 io.on("connection", (socket) => {
   console.log("New client connected");
-});
+})
+
+
+
+
+// const io = socket(server, {
+//   path: "/api/users",
+//   // cors: {
+//   //   origin: allowedOrigins,
+//   // },
+//   cookie: true,
+// });
+// // io.use(protect)
+// io.on("connection", (socket) => {
+//   console.log("New client connected");
+// })
