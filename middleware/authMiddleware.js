@@ -9,6 +9,7 @@ const protect = asyncHandler(async (req, res, next) => {
       token = req.cookies.access_token;
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.appUser = await appUser.findById(decoded.id).select("-password");
+      console.log(req.cookies.access_token)
       next();
     } catch (err) {
       res.status(401);

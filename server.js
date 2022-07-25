@@ -35,11 +35,21 @@ const server = app.listen(PORT, () => {
   console.log(`New Server running on port ${PORT}`);
 })
 const io = socket(server, {
+  // path: "/api/users",
+  cookie: true,
+  // allowEIO3: true,
+  multiplex: 'false',
   cors: {
     origin: allowedOrigins,
+    methods: ["GET", "POST", "DELETE"], 
+    // transports: ['websocket'],
+    credentials: true,
   }
 });
 
+// io.use((socket, next) => {
+//   protect()
+// })
 io.on("connection", (socket) => {
   console.log("New client connected");
 })
