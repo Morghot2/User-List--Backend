@@ -30,6 +30,9 @@ app.use("/api/appusers", require("./routes/appUserRoutes"));
 const server = app.listen(PORT, () => {
   console.log(`New Server running on port ${PORT}`);
 });
+
+//WEBSCOKETS
+
 const io = socket(server, {
   cookie: true,
   multiplex: "false",
