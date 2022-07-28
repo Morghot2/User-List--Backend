@@ -27,44 +27,22 @@ app.use(cookieParser());
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/appusers", require("./routes/appUserRoutes"));
 
-// app.listen(PORT, () => {
-//   console.log(`New Server running on port ${PORT}`);
-// });
-
 const server = app.listen(PORT, () => {
   console.log(`New Server running on port ${PORT}`);
-})
+});
 const io = socket(server, {
-  // path: "/api/users",
   cookie: true,
-  // allowEIO3: true,
-  multiplex: 'false',
+  multiplex: "false",
   cors: {
     origin: allowedOrigins,
-    methods: ["GET", "POST", "DELETE"], 
-    // transports: ['websocket'],
+    methods: ["GET", "POST", "DELETE"],
+    transports: ["websocket"],
     credentials: true,
-  }
+  },
 });
-
-// io.use((socket, next) => {
-//   protect()
-// })
 io.on("connection", (socket) => {
-  console.log("New client connected");
-})
-
-
-
-
-// const io = socket(server, {
-//   path: "/api/users",
-//   // cors: {
-//   //   origin: allowedOrigins,
-//   // },
-//   cookie: true,
-// });
-// // io.use(protect)
-// io.on("connection", (socket) => {
-//   console.log("New client connected");
-// })
+  socket.on("Records", (data) => {
+    io.sockets.emit("Records", data);
+  });
+  console.log(`New client connected ${socket.id}`);
+});
