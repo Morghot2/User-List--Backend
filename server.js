@@ -4,15 +4,11 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const socket = require("socket.io");
-const { socketConnection } = require('./sockets');
 
 connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://celadon-empanada-d6316b.netlify.app",
-];
+const allowedOrigins = ["http://localhost:3000"];
 
 const options = {
   origin: allowedOrigins,
@@ -33,29 +29,22 @@ const server = app.listen(PORT, () => {
 
 //WEBSCOKETS
 
-// const io = socket(server, {
-//   cookie: true,
-//   multiplex: "false",
-//   cors: {
-//     origin: allowedOrigins,
-//     methods: ["GET", "POST", "DELETE"],
-//     transports: ["websocket"],
-//     credentials: true,
-//   },
-// });
-// io.on("connection", (socket) => {
-//   socket.on("Records", (data) => {
-//     io.sockets.emit("Records", data);
-//   });
-//   console.log(`New client connected ${socket.id}`);
-// });
-socketConnection(server, {
-    cookie: true,
-    multiplex: "false",
-    cors: {
-      origin: allowedOrigins,
-      methods: ["GET", "POST", "DELETE"],
-      transports: ["websocket"],
-      credentials: true,
-    },
-  });
+const io = socket(server, {
+  cookie: true,
+  multiplex: "false",
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "DELETE"],
+    transports: ["websocket"],
+    credentials: true,
+  },
+});
+
+app.set("io", io);
+
+io.on("connection", (socket) => {
+  // socket.on("Records", (data) => {
+  //   io.sockets.emit("Records", data);
+  // });
+  console.log(`New client connected ${socket.id}`);
+});

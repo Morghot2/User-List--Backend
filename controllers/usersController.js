@@ -8,7 +8,7 @@ const getUsers = asyncHandler(async (req, res) => {
   res.status(200).json(userRecords);
 });
 
-const addUser = asyncHandler(async (req, res) => {
+const addUser = asyncHandler(async (req, res, getIOInstance) => {
   const newUser = await userRecord.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -17,8 +17,8 @@ const addUser = asyncHandler(async (req, res) => {
     appUser: req.appUser.id,
   });
   res.status(200).json(newUser);
+  req.app.get("io").sockets.emit("Records", "Records changed");
 });
-
 const updateUser = asyncHandler(async (req, res) => {
   const userRecordToChange = await userRecord.findById(req.params.id);
   if (!userRecordToChange) {
@@ -44,6 +44,8 @@ const updateUser = asyncHandler(async (req, res) => {
     }
   );
   res.status(200).json(updatedUserRecord);
+
+  req.app.get("io").sockets.emit("Records", "Records changed");
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
@@ -66,6 +68,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
   await deleteUserRecord.remove();
   res.status(200).json({ id: req.params.id });
+  req.app.get("io").sockets.emit("Records", "Records changed");
 });
 
 module.exports = {
