@@ -48,7 +48,6 @@ const loginUser = asyncHandler(async (req, res) => {
       firstName: appUser.firstName,
       lastName: appUser.lastName,
       email: appUser.email,
-      // isLogged: true
     });
   } else {
     res.status(400).json({ message: "Invalid credentials" });

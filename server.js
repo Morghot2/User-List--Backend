@@ -27,11 +27,8 @@ const server = app.listen(PORT, () => {
   console.log(`New Server running on port ${PORT}`);
 });
 
-//WEBSCOKETS
-
 const io = socket(server, {
   cookie: true,
-  multiplex: "false",
   cors: {
     origin: allowedOrigins,
     methods: ["GET", "POST", "DELETE"],
@@ -43,8 +40,5 @@ const io = socket(server, {
 app.set("io", io);
 
 io.on("connection", (socket) => {
-  // socket.on("Records", (data) => {
-  //   io.sockets.emit("Records", data);
-  // });
   console.log(`New client connected ${socket.id}`);
 });
