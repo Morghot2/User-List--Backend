@@ -17,7 +17,7 @@ const addUser = asyncHandler(async (req, res, getIOInstance) => {
     appUser: req.appUser.id,
   });
   res.status(200).json(newUser);
-  req.app.get("io").sockets.emit("Records", "Records changed");
+  req.app.get("io").sockets.emit("Records", {message: "Add", recordData: newUser});
 });
 const updateUser = asyncHandler(async (req, res) => {
   const userRecordToChange = await userRecord.findById(req.params.id);
@@ -45,7 +45,7 @@ const updateUser = asyncHandler(async (req, res) => {
   );
   res.status(200).json(updatedUserRecord);
 
-  req.app.get("io").sockets.emit("Records", "Records changed");
+  req.app.get("io").sockets.emit("Records", { message: "Update", recordData: {recordToChangeId: req.params.id, userValues: req.body} });
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
@@ -68,7 +68,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
   await deleteUserRecord.remove();
   res.status(200).json({ id: req.params.id });
-  req.app.get("io").sockets.emit("Records", "Records changed");
+  req.app.get("io").sockets.emit("Records", {message: "Delete", id: req.params.id});
 });
 
 module.exports = {
