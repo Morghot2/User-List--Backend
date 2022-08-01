@@ -8,7 +8,7 @@ const getUsers = asyncHandler(async (req, res) => {
   res.status(200).json(userRecords);
 });
 
-const addUser = asyncHandler(async (req, res, getIOInstance) => {
+const addUser = asyncHandler(async (req, res) => {
   const newUser = await userRecord.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
