@@ -68,7 +68,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
   await deleteUserRecord.remove();
   res.status(200).json({ id: req.params.id });
-  req.app.get("io").sockets.emit("Records", {message: "Delete", id: req.params.id});
+  req.app.get("io").sockets.emit("Records", {message: "Delete", recordData: req.params.id});
 });
 
 module.exports = {
