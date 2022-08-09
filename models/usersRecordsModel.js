@@ -19,6 +19,9 @@ const userRecordSchema = mongoose.Schema(
     age: {
       type: Number,
     },
+    photo: {
+      type: String,
+    }
   },
   {
     timestamps: true,
