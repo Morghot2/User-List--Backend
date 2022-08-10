@@ -7,20 +7,21 @@ const imageToBase64 = require("image-to-base64");
 
 const getUsers = asyncHandler(async (req, res) => {
   const userRecords = await userRecord.find({ appUser: req.appUser.id });
-  const convertedRecords = await Promise.all(userRecords.map((record) => {
-    return imageToBase64(record.photo) // return the result of convertion
-      .then((response) => {
-          return {...record, photo: response}; // return the re structured object instead of modify
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const convertedRecords = await Promise.all(
+    userRecords.map((record) => {
+      return imageToBase64(record.photo) // return the result of convertion
+        .then((response) => {
+          return { ...record, _doc: { ...record._doc, photo: response } }; // return the re structured object instead of modify
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       //SHOULD RETURN SOMETHING
-      
-  }));
+    })
+  );
 
-  console.log(convertedRecords); // should print the expected result
-  res.status(200).json(userRecords);
+  convertedRecords.map((record) => {console.log(record._doc)})
+  res.status(200).json(convertedRecords);
 });
 
 const addUser = asyncHandler(async (req, res) => {
