@@ -1,31 +1,31 @@
 const asyncHandler = require("express-async-handler");
-// var urlToImage = require("url-to-image");
 var fs = require("fs");
 const { default: mongoose } = require("mongoose");
 const userRecord = require("../models/usersRecordsModel");
 const User = require("../models/appUserModel");
 const imageToBase64 = require("image-to-base64");
 
-// const base64_encode = (file) => {
-//   const bitmap = fs.readFileSync(file);
-//   return new Buffer.from(bitmap).toString("base64");
-// };
-
 const getUsers = asyncHandler(async (req, res) => {
   const userRecords = await userRecord.find({ appUser: req.appUser.id });
+
   const convertedImageRecords = userRecords.map((record) => {
-    imageToBase64(record.photo) // Image URL
+    let changedRecord = {};
+    imageToBase64(record.photo)
       .then((response) => {
-        console.log(`${response}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++`); // "iVBORw0KGgoAAAANSwCAIA..."
+        console.log(
+          `${response}++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++`
+        );
+        return { ...record, photo: response };
       })
       .catch((error) => {
-        console.log(error); // Logs an error if there was one
+        console.log(error);
       });
-    // const image = urlToImage(record.photo, `${record._id}.png`);
-    // const convertedImage = base64_encode(`${record._id}.png`);
+    return record;
   });
 
-  res.status(200).json(userRecords);
+  console.log(convertedImageRecords);
+
+  res.status(200).json(convertedImageRecords);
 });
 
 const addUser = asyncHandler(async (req, res) => {
