@@ -20,7 +20,7 @@ const getUsers = asyncHandler(async (req, res) => {
   // );
   // const finalRecords = convertedRecords.map((record) => record._doc);
   console.log(req.appUser)
-  generateV4ReadSignedUrl(req.appUser.id, process.env.PROJECT_ID).catch(console.error);
+  generateV4ReadSignedUrl(req.appUser.id, "pierwszy.png").catch(console.error);
   res.status(200).json(userRecords);
 });
 
