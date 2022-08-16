@@ -4,21 +4,24 @@ const { default: mongoose } = require("mongoose");
 const userRecord = require("../models/usersRecordsModel");
 const User = require("../models/appUserModel");
 const imageToBase64 = require("image-to-base64");
+const {generateV4ReadSignedUrl} = require("../cloudStorage");
 
 const getUsers = asyncHandler(async (req, res) => {
   const userRecords = await userRecord.find({ appUser: req.appUser.id });
-  const convertedRecords = await Promise.all(
-    userRecords.map(async (record) => {
-      try {
-        const response = await imageToBase64(record.photo);
-        return { ...record, _doc: { ...record._doc, photo: response } };
-      } catch (error) {
-        console.log(error);
-      }
-    })
-  );
-  const finalRecords = convertedRecords.map((record) => record._doc);
-  res.status(200).json(finalRecords);
+  // const convertedRecords = await Promise.all(
+  //   userRecords.map(async (record) => {
+  //     try {
+  //       const response = await imageToBase64(record.photo);
+  //       return { ...record, _doc: { ...record._doc, photo: response } };
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })
+  // );
+  // const finalRecords = convertedRecords.map((record) => record._doc);
+  console.log(req.appUser)
+  generateV4ReadSignedUrl(req.appUser.id, process.env.PROJECT_ID).catch(console.error);
+  res.status(200).json(userRecords);
 });
 
 const addUser = asyncHandler(async (req, res) => {

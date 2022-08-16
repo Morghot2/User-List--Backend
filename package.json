@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^6.4.0",
     "@types/node": "^17.0.41",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
