@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/appUserModel");
+const {createBucket} = require("../GCP/cloudStorage");
 
 const registerUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -28,6 +29,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: newAppUser.email,
       token: generateToken(newAppUser._id),
     });
+    
   } else {
     res.status(400);
     throw new Error("Invalid user data");

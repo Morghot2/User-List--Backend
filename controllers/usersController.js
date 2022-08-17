@@ -4,18 +4,18 @@ const { default: mongoose } = require("mongoose");
 const userRecord = require("../models/usersRecordsModel");
 const User = require("../models/appUserModel");
 const imageToBase64 = require("image-to-base64");
-const { generateV4ReadSignedUrl } = require("../cloudStorage");
+const { generateV4ReadSignedUrl } = require("../GCP/cloudStorage");
 
 const getUsers = asyncHandler(async (req, res) => {
   const userRecords = await userRecord.find({ appUser: req.appUser.id });
   const recordsWithSignedUrls = await Promise.all(
     userRecords.map(async (record) => {
       const signedUrl = await generateV4ReadSignedUrl(req.appUser.id, record.photo);
-      return { ...record._doc, imageUrl: signedUrl };
+      return { ...record._doc, photo: signedUrl };
     }),
   );
 
-    //-----------------BASE64 SOLUTION
+    //-----------------BASE64 SOLUTION---------------
   // });
   // const convertedRecords = await Promise.all(
   //   userRecords.map(async (record) => {
@@ -29,10 +29,8 @@ const getUsers = asyncHandler(async (req, res) => {
   // );
   // const finalRecords = convertedRecords.map((record) => record._doc);
   //-------------------------------------------------------------------
-
-  // generateV4ReadSignedUrl(req.appUser.id, "pierwszy.png").catch(console.error);
   console.log(recordsWithSignedUrls);
-  res.status(200).json(userRecords);
+  res.status(200).json(recordsWithSignedUrls);
 });
 
 const addUser = asyncHandler(async (req, res) => {
